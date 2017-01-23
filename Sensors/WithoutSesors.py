@@ -61,9 +61,9 @@ while True:
     currentTime = time.strftime("%H:%M") +""
     if currentTime == "22:24":
         print "here"
-        f = open("C:\\Users\\Pierre\\EASY-WAKEE\\AlarmTime.txt", mode='r', buffering=1)
+        f = open("~\\EasyWakeeAlarm\\AlarmTime.txt", mode='r', buffering=1)
         alarmTime = f.read(5)
-        fileDay = open("C:\\Users\\Pierre\\EASY-WAKEE\\AlarmDay.txt", mode='r', buffering=1)
+        fileDay = open("~\\EasyWakeeAlarm\\AlarmDay.txt", mode='r', buffering=1)
         alarmDay = fileDay.read(10)      
 
     #ch=int(currentTime[0:2])
