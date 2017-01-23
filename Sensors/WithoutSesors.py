@@ -9,9 +9,9 @@ url = 'https://dweet.io/dweet/for/easywakeetest'
 urlget ='https://dweet.io/get/dweets/for/easywakeetest'
 urlget2 ='https://dweet.io/get/latest/dweet/for/EasyWakeeAlarm'
 #fileTime = open("~\\EasyWakeeAlarm\\AlarmTime.txt", mode='r', buffering=1)
-#alarmTime = fileTime.read(5)
+alarmTime = "07:00"
 #fileDay = open("~\\EasyWakeeAlarm\\AlarmDay.txt", mode='r', buffering=1)
-#alarmDay = fileDay.read(10)
+alarmDay = "23/01/2017"
 
 #weather = get(url).json()
 
@@ -31,8 +31,8 @@ urlget2 ='https://dweet.io/get/latest/dweet/for/EasyWakeeAlarm'
 
 #print response
 
-#responseJSON = get(urlget2).json()
-#content = responseJSON.get('with')[0].get('content').get('time')
+responseJSON = get(urlget2).json()
+content = responseJSON.get('with')[0].get('content').get('time')
 #print content
 
 #lastDweets = [record['content'] for record in responseJSON['with']]
@@ -61,7 +61,7 @@ urlget2 ='https://dweet.io/get/latest/dweet/for/EasyWakeeAlarm'
 
 while True:
     currentTime = time.strftime("%H:%M") +""
-    if currentTime == "22:24":
+    if currentTime == "15:22":
         print "here"
         #f = open("~\\EasyWakeeAlarm\\AlarmTime.txt", mode='r', buffering=1)
         #alarmTime = f.read(5)
@@ -70,8 +70,7 @@ while True:
         
         #fileDay = open("~\\EasyWakeeAlarm\\AlarmDay.txt", mode='r', buffering=1)
         #alarmDay = fileDay.read(10)      
-        responseJSON = get(urlget2).json()
-        alarmDay = responseJSON.get('with')[0].get('content').get('time')                
+        #alarmDay = responseJSON.get('with')[0].get('content').get('day')                
 
     #ch=int(currentTime[0:2])
     #cm=int(currentTime[3:5])

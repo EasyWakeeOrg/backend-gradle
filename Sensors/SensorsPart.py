@@ -8,10 +8,10 @@ from microbit import *
 
 url = 'https://dweet.io/dweet/for/easywakeetest'
 urlget ='https://dweet.io/get/dweets/for/easywakeetest'
-fileTime = open("~\\EasyWakeeAlarm\\AlarmTime.txt", mode='r', buffering=1)
-alarmTime = fileTime.read(5)
-fileDay = open("~\\EasyWakeeAlarm\\AlarmDay.txt", mode='r', buffering=1)
-alarmDay = fileDay.read(10)
+#fileTime = open("~\\EasyWakeeAlarm\\AlarmTime.txt", mode='r', buffering=1)
+alarmTime = "07:00"
+#fileDay = open("~\\EasyWakeeAlarm\\AlarmDay.txt", mode='r', buffering=1)
+alarmDay = "23/01/2017"
 
 #weather = get(url).json()
 
@@ -60,7 +60,7 @@ alarmDay = fileDay.read(10)
 
 while True:
    currentTime = time.strftime("%H:%M") +""
-   if currentTime == "22:24":
+   if currentTime == "14:43":
       print "here"
       #f = open("~\\EasyWakeeAlarm\\AlarmTime.txt", mode='r', buffering=1)
       #alarmTime = f.read(5)
@@ -69,8 +69,7 @@ while True:
    
       #fileDay = open("~\\EasyWakeeAlarm\\AlarmDay.txt", mode='r', buffering=1)
       #alarmDay = fileDay.read(10)      
-      responseJSON = get(urlget2).json()
-      alarmDay = responseJSON.get('with')[0].get('content').get('time')                
+     # alarmDay = responseJSON.get('with')[0].get('content').get('time')                
        
    
    #ch=int(currentTime[0:2])
