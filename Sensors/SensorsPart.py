@@ -4,6 +4,7 @@ from dateutil import parser
 import urllib
 import urllib2
 import time
+from microbit import *
 
 url = 'https://dweet.io/dweet/for/easywakeetest'
 urlget ='https://dweet.io/get/dweets/for/easywakeetest'
