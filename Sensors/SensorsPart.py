@@ -7,9 +7,9 @@ import time
 
 url = 'https://dweet.io/dweet/for/easywakeetest'
 urlget ='https://dweet.io/get/dweets/for/easywakeetest'
-fileTime = open("C:\\Users\\Pierre\\EASY-WAKEE\\AlarmTime.txt", mode='r', buffering=1)
+fileTime = open("~\\EasyWakeeAlarm\\AlarmTime.txt", mode='r', buffering=1)
 alarmTime = fileTime.read(5)
-fileDay = open("C:\\Users\\Pierre\\EASY-WAKEE\\AlarmDay.txt", mode='r', buffering=1)
+fileDay = open("~\\EasyWakeeAlarm\\AlarmDay.txt", mode='r', buffering=1)
 alarmDay = fileDay.read(10)
 
 #weather = get(url).json()
@@ -77,15 +77,22 @@ while True:
       while musicOn == 1:
          #Get the data from the movement sensor
          #Parse it to JSON
+         print "Wake up"#To replace with makin sound with the raspberry
 
          #Dweet it
          day = time.strftime("%d/%m/%Y")#current day
          hour = time.strftime("%H:%M")#time of the data measurement
-         query_args = { 'movement':'yes', 'day':'23/01/2017', 'time':hour }#Change the field value by data sent
+         #Get the movement sensor value
+         if pin0.read_digital:
+            query_args = { 'movement':'yes', 'day':'23/01/2017', 'time':hour }
+         else:
+            query_args = { 'movement':'no', 'day':'23/01/2017', 'time':hour }
+            
          data = urllib.urlencode(query_args)
          request = urllib2.Request(url, data)  
-         response = urllib2.urlopen(request).read()
-         
+         response = urllib2.urlopen(request).read()         
+      
+      
          #READ THE LAST DWEETS
          #This reading is for loose coopling (sensor and alarmclock device on different raspberries).
          #Ideally it would be on an other raspberry but we get only one. This is also for loose coopling
@@ -93,8 +100,8 @@ while True:
          #sensor is on a different raspberry than alarmclock then there might be several dweet between
          #the alarm clock requests (for dweets)
          responseJSON = get(urlget).json()
+
          lastDweets = [record['content'] for record in responseJSON['with']]         
-         print "Wake up"#To replace with makin sound with the raspberry
          
          for dweet in lastDweets:
             if dweet.get('movement') == "yes" and dweet.get('day')==alarmDay and dweet.get('time') >= alarmTime:
