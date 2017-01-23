@@ -62,10 +62,16 @@ while True:
    currentTime = time.strftime("%H:%M") +""
    if currentTime == "22:24":
       print "here"
-      f = open("~\\EasyWakeeAlarm\\AlarmTime.txt", mode='r', buffering=1)
-      alarmTime = f.read(5)
-      fileDay = open("~\\EasyWakeeAlarm\\AlarmDay.txt", mode='r', buffering=1)
-      alarmDay = fileDay.read(10)      
+      #f = open("~\\EasyWakeeAlarm\\AlarmTime.txt", mode='r', buffering=1)
+      #alarmTime = f.read(5)
+      responseJSON = get(urlget2).json()
+      alarmTime = responseJSON.get('with')[0].get('content').get('time')        
+   
+      #fileDay = open("~\\EasyWakeeAlarm\\AlarmDay.txt", mode='r', buffering=1)
+      #alarmDay = fileDay.read(10)      
+      responseJSON = get(urlget2).json()
+      alarmDay = responseJSON.get('with')[0].get('content').get('time')                
+       
    
    #ch=int(currentTime[0:2])
    #cm=int(currentTime[3:5])
