@@ -17,13 +17,20 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.*;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Calendar;
+
+import javax.net.ssl.HttpsURLConnection;
 
 
 public class Quickstart {
@@ -229,17 +236,76 @@ public class Quickstart {
 		//will send a request to read it
 	}
 
+	
+
     public static void main(String[] args) throws Exception {
     	Address home = new Address(68, "Cours Fauriel", 42100, "Saint-etienne");
     	Address school = new Address(5,"chemin des hautes Bastides",06650,"Le Rouret");
     	ArrayList<String> transport = new ArrayList<String>();
     	transport.add("Car");
     	User u = new User("Pierre", "ptipito","test",30,home,transport,school,"id");
-		
-    	Time first = firstEvent(u);
-    	Time alarm = setAlarmTime(u);
-    	System.out.println("First event time : " + first);
-    	System.out.println("Alarm time : " + alarm);
+
+    	HttpURLConnectionExample http = new HttpURLConnectionExample();
+    	http.setUrl("https://dweet.io/dweet/for/EasyWakeeAlarm");
+    	
+    	while(true){
+        	SimpleDateFormat h = new SimpleDateFormat ("HH:mm");
+        	Date currentTime_1 = new Date();
+        	String heureString = h.format(currentTime_1);
+        	//Get tomorrow's date
+        	Calendar calendar = Calendar.getInstance();
+        	calendar.add(Calendar.DAY_OF_YEAR, 1);
+        	String date="";
+        	date+=calendar.get(Calendar.DAY_OF_MONTH);
+        	date+="/";
+        	int month =(calendar.get(Calendar.MONTH)+1);
+        	if(month<10)
+        		date+="0";
+        	date+=month;
+        	date+="/";
+        	date+=calendar.get(Calendar.YEAR);
+        	
+    		if(heureString.equals("13:17")){
+			
+		    	Time first = firstEvent(u);
+		    	if(first.getHour()==-1 || first.getMinute() == -1){
+		        	http.sendPost("time=NoEvt&day=NoEvt");
+		    		try {
+						BufferedWriter out = new BufferedWriter(new FileWriter("~\\EasyWakeeAlarm\\AlarmTime.txt"));
+					    out.write("NoEvt"); 
+					    out.close();
+			    	}
+			    	catch (IOException e)
+			    	{
+			    	    System.out.println("Exception ");
+			    	}
+			    	finally{
+			    		break;
+			    	}
+		    	}
+		    	else{
+			    	Time alarm = setAlarmTime(u);
+			    	System.out.println("First event time : " + first);
+			    	System.out.println("Alarm time : " + alarm);
+		        	http.sendPost("time="+alarm.toString()+"&day="+date);
+			    	try {
+						BufferedWriter out = new BufferedWriter(new FileWriter("~\\EasyWakeeAlarm\\AlarmTime.txt"));
+					    out.write(alarm.toString()); 
+					    out.close();
+					    BufferedWriter out2 = new BufferedWriter(new FileWriter("~\\EasyWakeeAlarm\\AlarmDay.txt"));
+					    out2.write(date); 
+					    out2.close();
+			    	}
+			    	catch (IOException e)
+			    	{
+			    	    System.out.println("Exception ");
+			    	}
+			    	finally{
+			    		break;
+			    	}
+		    	}
+    		}
+    	}
     }
     
     public static String getAPI_KEY(){
